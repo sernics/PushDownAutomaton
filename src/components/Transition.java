@@ -2,13 +2,13 @@ package src.components;
 
 import java.util.Vector;
 
-public class Transitions {
+public class Transition {
   private State nextState;
   private Symbol chainSymbol;
   private Symbol stackSymbol;
   private Vector<Symbol> toStack;
 
-  public Transitions(State nextState, Symbol chainSymbol, Symbol stackSymbol, Vector<Symbol> toStack) {
+  public Transition(State nextState, Symbol chainSymbol, Symbol stackSymbol, Vector<Symbol> toStack) {
     this.nextState = nextState;
     this.chainSymbol = chainSymbol;
     this.stackSymbol = stackSymbol;
