@@ -15,4 +15,7 @@ public class Alphabet {
   public void add(State state) {
     this.alphabet.add(state);
   }
+  public boolean symbolExists(State state) {
+    return this.alphabet.contains(state);
+  }
 }
