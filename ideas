@@ -1,0 +1,11 @@
+Estado -> Indica el conjunto de transiciones posibles
+Conjunto Q -> Es un array de estados
+transicion -> Indica que símbolo se debe leer de la cadena, que símbolo de pila se debe leer y que símbolo/s de pila se debe/n escribir -> devuelven todas las posibles transiciones que se puedan realizar
+Σ -> Alfabéto de entrada (cadena), es un array de símbolos
+Γ -> Alfabéto de la pila, es un array de símbolos
+q1 -> Estado inicial
+A1 -> Símbolo inicial de la pila
+q2 q3 -> Estados finales
+q1 a A q2 A -> Estado en el que estoy, símbolo que leo, símbolo que saco de la pila, estado al que voy, símbolo que meto en la pila
+
+Si hay un símbolo que es un punto, nos estamos refiriendo a que dicho símbolo es un símbolo vacío
