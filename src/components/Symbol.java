@@ -5,6 +5,9 @@ public class Symbol {
   public Symbol(char symbol) {
     this.symbol = symbol;
   }
+  public Symbol() {
+    this.symbol = '.';
+  }
   public char get() {
     return this.symbol;
   }
@@ -14,7 +17,6 @@ public class Symbol {
   /*
    * Returns true if this symbol is the epsilon symbol. Has been defined the epsilon symbol as the dot ('.') character.
    * @return True if this symbol is the epsilon symbol.
-   * TODO: check if this is the best way to define the epsilon symbol.
    */
   public boolean epsilon() {
     return this.symbol == '.';
