@@ -27,7 +27,7 @@ public class PushDownAutomaton {
   public PushDownAutomaton() {
     this.states = new Vector<State>();
   }
-  public void addStates(Vector<State> states) {
+  public void setStates(Vector<State> states) {
     this.states = states;
   }
   public void setSigmaAlphabet(Alphabet sigmaAlphabet) {
@@ -43,5 +43,18 @@ public class PushDownAutomaton {
     this.initialStackSymbol = initialStackSymbol;
     this.stack = new Stack<Symbol>();
     this.stack.push(initialStackSymbol);
+  }
+  // to string
+  public String toString() {
+    String result = "Pushdown Automaton\n";
+    result += "States: ";
+    for (State state : this.states) {
+      result += state.toString() + " ";
+    }
+    result += "\nSigma Alphabet: " + this.sigmaAlphabet.toString();
+    result += "\nGamma Alphabet: " + this.gammaAlphabet.toString();
+    result += "\nInitial State: " + this.initialState.toString();
+    result += "\nInitial Stack Symbol: " + this.initialStackSymbol.toString();
+    return result;
   }
 }

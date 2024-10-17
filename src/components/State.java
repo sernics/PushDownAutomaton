@@ -3,16 +3,16 @@ package src.components;
 import java.util.Vector;
 
 public class State {
-  private int id;
+  private String id;
   private boolean isFinal;
   private Vector<Transition> transitions;
 
-  public State(int id, boolean isFinal) {
+  public State(String id) {
     this.id = id;
-    this.isFinal = isFinal;
+    this.isFinal = false;
     this.transitions = new Vector<Transition>();
   }
-  public int getId() {
+  public String getId() {
     return this.id;
   }
   public boolean isFinal() {
@@ -20,6 +20,9 @@ public class State {
   }
   public void addTransition(Transition transition) {
     this.transitions.add(transition);
+  }
+  public void setFinal() {
+    this.isFinal = true;
   }
   /*
    * Returns the transitions that can be made from this state with the given chainSymbol and stackSymbol.
@@ -38,5 +41,9 @@ public class State {
       }
     }
     return result;
+  }
+  // to string
+  public String toString() {
+    return "State " + this.id + " is final: " + this.isFinal;
   }
 }

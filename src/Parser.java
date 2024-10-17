@@ -1,30 +1,85 @@
 package src;
 
 import java.util.Scanner;
+import java.util.Vector;
+
+import src.components.Alphabet;
+import src.components.PushDownAutomaton;
+import src.components.State;
+import src.components.Symbol;
 
 public class Parser {
   private String removeCommentaries(String line) {
     return line.split("#")[0];
   }
-
-  public Parser(String filename) {
+  private Vector<String[]> generateVectorData(String filename) {
+    Vector<String[]> tokens = new Vector<String[]>();
     try {
       Scanner scanner = new Scanner(new java.io.File(filename));
-      String data = "";
       while (scanner.hasNextLine()) {
         String line = this.removeCommentaries(scanner.nextLine());
-        // Skip empty lines.
+        // Skip empty lines. Lines that was comments and was removed are empty.
         if (line.isEmpty()) {
           continue;
         }
-        data += line + "\n";
+        String[] actualTokens = line.split(" ");
+        tokens.add(actualTokens);
       }
-      // Remove the last break line.
-      data = data.substring(0, data.length() - 1);
-      System.out.println(data);
       scanner.close();
     } catch (java.io.FileNotFoundException e) { // Fail to found the file.
       System.out.println("File not found.");
     }
+    return tokens;
+  }
+  private Vector<State> generateStates(String[] statesData) {
+    Vector<State> states = new Vector<State>();
+    for (String stateData : statesData) {
+      State state = new State(stateData);
+      states.add(state);
+    }
+    return states;
+  }
+  private Alphabet generateAlphabet(String[] alphabetData) {
+    Alphabet alphabet = new Alphabet();
+    for (String symbolData : alphabetData) {
+      Symbol symbol = new Symbol(symbolData);
+      alphabet.add(symbol);
+    }
+    return alphabet;
+  }
+  private State setInitialState(Vector<State> states, String initialStateData) {
+    State initialState = null;
+    for (State state : states) {
+      if (state.getId().equals(initialStateData)) {
+        state.setFinal();
+        initialState = state;
+      }
+    }
+    return initialState;
+  }
+
+  public Parser(String filename) {
+    Vector<String[]> tokens = this.generateVectorData(filename);
+    int i = 0;
+    String[] statesData = tokens.get(i);
+    Vector<State> states = this.generateStates(statesData);
+    i++;
+    String[] sigmaData = tokens.get(i);
+    Alphabet sigmaAlphabet = this.generateAlphabet(sigmaData);
+    i++;
+    String[] gammaData = tokens.get(i);
+    Alphabet gammaAlphabet = this.generateAlphabet(gammaData);
+    i++;
+    State initialState = this.setInitialState(states, tokens.get(i)[0]);
+    i++;
+    Symbol initialStackSymbol = new Symbol(tokens.get(i)[0]);
+    i++;
+    PushDownAutomaton pda = new PushDownAutomaton();
+    pda.setStates(states);
+    pda.setSigmaAlphabet(sigmaAlphabet);
+    pda.setGammaAlphabet(gammaAlphabet);
+    pda.setInitialState(initialState);
+    pda.setStack(initialStackSymbol);
+    System.out.println(pda);
   }
 }

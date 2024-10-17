@@ -1,14 +1,14 @@
 package src.components;
 
 public class Symbol {
-  private char symbol;
-  public Symbol(char symbol) {
+  private String symbol;
+  public Symbol(String symbol) {
     this.symbol = symbol;
   }
   public Symbol() {
-    this.symbol = '.';
+    this.symbol = ".";
   }
-  public char get() {
+  public String get() {
     return this.symbol;
   }
   public boolean equals(Symbol other) {
@@ -19,6 +19,10 @@ public class Symbol {
    * @return True if this symbol is the epsilon symbol.
    */
   public boolean epsilon() {
-    return this.symbol == '.';
+    return this.symbol == ".";
+  }
+  // to string
+  public String toString() {
+    return "" + this.symbol;
   }
 }

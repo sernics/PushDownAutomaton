@@ -1,21 +1,32 @@
 package src.components;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
 public class Alphabet {
-  private Set<State> alphabet;
+  private Set<Symbol> alphabet;
 
-  public Alphabet() {}
-  public Alphabet(Vector<State> rawAlphabet) {
-    for (State state : rawAlphabet) {
-      this.alphabet.add(state);
+  public Alphabet() {
+    this.alphabet = new LinkedHashSet<Symbol>();
+  }
+  public Alphabet(Vector<Symbol> rawAlphabet) {
+    for (Symbol symbol : rawAlphabet) {
+      this.alphabet.add(symbol);
     }
   }
-  public void add(State state) {
-    this.alphabet.add(state);
+  public void add(Symbol symbol) {
+    this.alphabet.add(symbol);
   }
-  public boolean symbolExists(State state) {
-    return this.alphabet.contains(state);
+  public boolean symbolExists(Symbol symbol) {
+    return this.alphabet.contains(symbol);
+  }
+  // to string
+  public String toString() {
+    String result = "Alphabet: ";
+    for (Symbol symbol : this.alphabet) {
+      result += symbol.toString() + " ";
+    }
+    return result;
   }
 }
