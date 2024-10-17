@@ -1,7 +1,6 @@
 package src.components;
 
 import java.util.Vector;
-import java.util.PriorityQueue;
 
 public class State {
   private int id;
@@ -28,13 +27,13 @@ public class State {
    * @param stackSymbol The stack symbol to match.
    * @return A vector of transitions that can be made from this state with the given chainSymbol and stackSymbol.
    */
-  public PriorityQueue<Transition> selectTransitions(Symbol chainSymbol, Symbol stackSymbol) {
-    PriorityQueue<Transition> result = new PriorityQueue<Transition>();
+  public Vector<Transition> selectTransitions(Symbol chainSymbol, Symbol stackSymbol) {
+    Vector<Transition> result = new Vector<Transition>();
     for (Transition transition : this.transitions) {
       if (transition.getChainSymbol().equals(chainSymbol) && transition.getStackSymbol().equals(stackSymbol)) {
         result.add(transition);
       } else if (transition.getChainSymbol().epsilon() && transition.getStackSymbol().equals(stackSymbol)) {
-        // On the transition function, we'll assure that no one symbol will be consumed from the chain.
+        // We must assure that no one symbol will be consumed from the chain.
         result.add(transition);
       }
     }
