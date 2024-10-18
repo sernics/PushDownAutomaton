@@ -26,4 +26,12 @@ public class Transition {
   public Vector<Symbol> getToStack() {
     return this.toStack;
   }
+  // to string
+  public String toString() {
+    String result = "Transition to " + this.nextState.getId() + " with chain symbol " + this.chainSymbol.toString() + " and stack symbol " + this.stackSymbol.toString() + " and to stack ";
+    for (Symbol symbol : this.toStack) {
+      result += symbol.toString() + " ";
+    }
+    return result;
+  }
 }

@@ -7,8 +7,11 @@ import src.components.Alphabet;
 import src.components.PushDownAutomaton;
 import src.components.State;
 import src.components.Symbol;
+import src.components.Transition;
 
 public class Parser {
+  private PushDownAutomaton pda;
+
   private String removeCommentaries(String line) {
     return line.split("#")[0];
   }
@@ -74,12 +77,39 @@ public class Parser {
     i++;
     Symbol initialStackSymbol = new Symbol(tokens.get(i)[0]);
     i++;
-    PushDownAutomaton pda = new PushDownAutomaton();
-    pda.setStates(states);
-    pda.setSigmaAlphabet(sigmaAlphabet);
-    pda.setGammaAlphabet(gammaAlphabet);
-    pda.setInitialState(initialState);
-    pda.setStack(initialStackSymbol);
-    System.out.println(pda);
+    this.pda = new PushDownAutomaton();
+    this.pda.setStates(states);
+    this.pda.setSigmaAlphabet(sigmaAlphabet);
+    this.pda.setGammaAlphabet(gammaAlphabet);
+    this.pda.setInitialState(initialState);
+    this.pda.setStack(initialStackSymbol);
+    while (i < tokens.size()) {
+      String stateId = tokens.get(i)[0];
+      Symbol chainSimbol = new Symbol(tokens.get(i)[1]);
+      Symbol stackSymbol = new Symbol(tokens.get(i)[2]);
+      String nextStateId = tokens.get(i)[3];
+      State nextState = null;
+      for (State state : states) {
+        if (state.getId().equals(nextStateId)) {
+          nextState = state;
+        }
+      }
+      Vector<Symbol> toStack = new Vector<Symbol>();
+      String toStackData = tokens.get(i)[4];
+      for (int j = 0; j < toStackData.length(); j++) {
+        toStack.add(new Symbol(toStackData.substring(j, j + 1)));
+      }
+      for (State state : states) {
+        if (state.getId().equals(stateId)) {
+          Transition transition = new Transition(nextState, chainSimbol, stackSymbol, toStack);
+          state.addTransition(transition);
+          System.out.println(transition);
+        }
+      }
+      i++;
+    }
+  }
+  public PushDownAutomaton getPDA() {
+    return this.pda;
   }
 }
