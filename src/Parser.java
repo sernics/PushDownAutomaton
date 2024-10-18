@@ -103,7 +103,6 @@ public class Parser {
         if (state.getId().equals(stateId)) {
           Transition transition = new Transition(nextState, chainSimbol, stackSymbol, toStack);
           state.addTransition(transition);
-          System.out.println(transition);
         }
       }
       i++;

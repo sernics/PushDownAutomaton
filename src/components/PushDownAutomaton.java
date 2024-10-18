@@ -44,6 +44,9 @@ public class PushDownAutomaton {
     this.stack = new Stack<Symbol>();
     this.stack.push(initialStackSymbol);
   }
+  public boolean run(String chain) {
+    return false;
+  }
   // to string
   public String toString() {
     String result = "Pushdown Automaton\n";
@@ -51,10 +54,10 @@ public class PushDownAutomaton {
     for (State state : this.states) {
       result += state.toString() + " ";
     }
-    result += "\nSigma Alphabet: " + this.sigmaAlphabet.toString();
-    result += "\nGamma Alphabet: " + this.gammaAlphabet.toString();
-    result += "\nInitial State: " + this.initialState.toString();
-    result += "\nInitial Stack Symbol: " + this.initialStackSymbol.toString();
+    result += "\nSigma Alphabet: " + this.sigmaAlphabet;
+    result += "\nGamma Alphabet: " + this.gammaAlphabet;
+    result += "\nInitial State: " + this.initialState;
+    result += "\nInitial Stack Symbol: " + this.initialStackSymbol;
     return result;
   }
 }
