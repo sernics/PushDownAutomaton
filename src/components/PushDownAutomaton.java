@@ -56,6 +56,9 @@ public class PushDownAutomaton {
     } else {
       Symbol chainSymbol = new Symbol(chain.substring(0, 1));
       chain = chain.substring(1);
+      if (stack.isEmpty()) {
+        return false;
+      }
       Symbol stackSymbol = stack.pop();
       Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
       // Introduce the new stack symbols (inverted order because is a stack)
@@ -68,7 +71,6 @@ public class PushDownAutomaton {
           }
         }
         if (recursiveRun(transition.getNextState(), newStack, chain)) {
-          System.out.println(transition.getNextState() + " " + newStack + " " + chain);
           return true;
         }
       }

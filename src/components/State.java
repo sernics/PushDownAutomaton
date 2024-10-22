@@ -32,7 +32,6 @@ public class State {
    */
   public Vector<Transition> selectTransitions(Symbol chainSymbol, Symbol stackSymbol) {
     Vector<Transition> result = new Vector<Transition>();
-    System.out.println(this + " " + chainSymbol + " " + stackSymbol);
     for (Transition transition : this.transitions) {
       if (transition.getChainSymbol().equals(chainSymbol) && transition.getStackSymbol().equals(stackSymbol)) {
         result.add(transition);
@@ -42,7 +41,6 @@ public class State {
         result.add(transition);
       }
     }
-    System.out.println(result.size());
     return result;
   }
   // to string
