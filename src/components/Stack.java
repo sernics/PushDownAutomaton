@@ -25,6 +25,14 @@ public class Stack<T> {
     return list.size();
   }
 
+  public Stack<T> copy() {
+    Stack<T> newStack = new Stack<T>();
+    for (T value : list) {
+      newStack.push(value);
+    }
+    return newStack;
+  }
+
   public String toString() {
     return list.toString();
   }

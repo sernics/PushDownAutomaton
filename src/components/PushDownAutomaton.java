@@ -45,9 +45,34 @@ public class PushDownAutomaton {
     this.stack.push(initialStackSymbol);
   }
   public boolean run(String chain) {
-    State currentState = this.initialState;
-    Symbol chainSymbol = new Symbol(String.valueOf(chain.charAt(0)));
-    this.transitionFunction(currentState, chainSymbol, this.stack.pop());
+    return recursiveRun(this.initialState, this.stack, chain);
+  }
+  private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
+    if (chain.length() == 0) {
+      if (stack.isEmpty()) {
+        return true;
+      }
+      return false;
+    } else {
+      Symbol chainSymbol = new Symbol(chain.substring(0, 1));
+      chain = chain.substring(1);
+      Symbol stackSymbol = stack.pop();
+      Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
+      // Introduce the new stack symbols (inverted order because is a stack)
+      for (Transition transition : transitions) {
+        Stack<Symbol> newStack = stack.copy();
+        for (int i = transition.getToStack().size() - 1; i >= 0; i--) {
+          Symbol symbol = transition.getToStack().get(i);
+          if (!symbol.epsilon()) {
+            newStack.push(transition.getToStack().get(i));
+          }
+        }
+        if (recursiveRun(transition.getNextState(), newStack, chain)) {
+          System.out.println(transition.getNextState() + " " + newStack + " " + chain);
+          return true;
+        }
+      }
+    }
     return false;
   }
   // to string
