@@ -54,23 +54,32 @@ public class PushDownAutomaton {
       }
       return false;
     } else {
+      String previousChain = chain;
       Symbol chainSymbol = new Symbol(chain.substring(0, 1));
       chain = chain.substring(1);
+      // If the stack is empty and the chain is not empty, then the automaton can't continue, finish the execution.
       if (stack.isEmpty()) {
         return false;
       }
       Symbol stackSymbol = stack.pop();
       Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
-      // Introduce the new stack symbols (inverted order because is a stack)
       for (Transition transition : transitions) {
+        // Introduce the new stack symbols (inverted order because is a stack)
         Stack<Symbol> newStack = stack.copy();
         for (int i = transition.getToStack().size() - 1; i >= 0; i--) {
           Symbol symbol = transition.getToStack().get(i);
+          // If the symbol is not the epsilon symbol, then push it to the stack.
           if (!symbol.epsilon()) {
             newStack.push(transition.getToStack().get(i));
           }
         }
-        if (recursiveRun(transition.getNextState(), newStack, chain)) {
+        String chainCopy = null;
+        if (transition.getChainSymbol().epsilon()) {
+          chainCopy = previousChain;
+        } else {
+          chainCopy = chain;
+        }
+        if (recursiveRun(transition.getNextState(), newStack, chainCopy)) {
           return true;
         }
       }
