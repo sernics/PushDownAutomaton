@@ -45,6 +45,9 @@ public class PushDownAutomaton {
     this.stack.push(initialStackSymbol);
   }
   public boolean run(String chain) {
+    State currentState = this.initialState;
+    Symbol chainSymbol = new Symbol(String.valueOf(chain.charAt(0)));
+    this.transitionFunction(currentState, chainSymbol, this.stack.pop());
     return false;
   }
   // to string
