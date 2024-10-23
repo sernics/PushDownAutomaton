@@ -56,7 +56,7 @@ public class Parser {
     return initialState;
   }
 
-  public Parser(String filename) {
+  public Parser(String filename, int type) {
     Vector<String[]> tokens = this.generateVectorData(filename);
     int i = 0;
     String[] statesData = tokens.get(i);
@@ -72,7 +72,18 @@ public class Parser {
     i++;
     Symbol initialStackSymbol = new Symbol(tokens.get(i)[0]);
     i++;
-    this.pda = new EmptyPushDown();
+    if (type == 1) {
+      this.pda = new EmptyPushDown();
+    } else if (type == 2) {
+      String[] finalStates = tokens.get(i);
+      for (String finalState : finalStates) {
+        for (State state : states) {
+          if (state.getId().equals(finalState)) state.setFinal();
+        }
+      }
+      i++;
+      this.pda = new FinalPushDown();
+    } else throw new RuntimeException("Wrong type option");
     this.pda.setStates(states);
     this.pda.setSigmaAlphabet(sigmaAlphabet);
     this.pda.setGammaAlphabet(gammaAlphabet);

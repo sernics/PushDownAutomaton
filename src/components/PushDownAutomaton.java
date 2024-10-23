@@ -51,7 +51,7 @@ public abstract class PushDownAutomaton {
   }
   private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
     if (stack.isEmpty()) {
-//    return chain.isEmpty();
+      System.out.println("Last check");
       return this.finalCheck(state, chain);
     } else {
       String previousChain = chain;
