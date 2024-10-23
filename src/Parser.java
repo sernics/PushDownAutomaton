@@ -54,7 +54,6 @@ public class Parser {
     State initialState = null;
     for (State state : states) {
       if (state.getId().equals(initialStateData)) {
-        state.isFinal();
         initialState = state;
       }
     }
