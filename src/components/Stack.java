@@ -31,7 +31,7 @@ public class Stack<T> {
   }
 
   public String toString() {
-    String result = "[";
+    String result = "[ ";
     for (T value : list) {
       result += value.toString() + " ";
     }

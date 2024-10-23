@@ -1,5 +1,7 @@
 package src.components;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Vector;
 
 public abstract class PushDownAutomaton {
@@ -26,12 +28,17 @@ public abstract class PushDownAutomaton {
   private Vector<Transition> transitionFunction(State state, Symbol chainSymbol, Symbol stackSymbol) {
     return state.selectTransitions(chainSymbol, stackSymbol);
   }
+
   private void traceState(State state, String chain, Stack<Symbol> stack) {
     if (this.isTrace) {
-      if (chain.isEmpty()) {
-        System.out.print(state + ", ε, " + stack + ", [");
-      } else {
-        System.out.print(state + ", " + chain + ", " + stack + ", [");
+      try (FileWriter writer = new FileWriter("out.csv", true)) {
+        if (chain.isEmpty()) {
+          writer.write(state + ", ε, " + stack + ", [");
+        } else {
+          writer.write(state + ", " + chain + ", " + stack + ", [");
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
       }
     }
   }
@@ -46,10 +53,14 @@ public abstract class PushDownAutomaton {
 
   private void traceTransitions(Vector<Transition> transitions) {
     if (this.isTrace) {
-      for (Transition transition : transitions) {
-        System.out.print(transition + " ");
+      try (FileWriter writer = new FileWriter("out.csv", true)) {
+        for (Transition transition : transitions) {
+          writer.write(transition + " ");
+        }
+        writer.write("]\n");
+      } catch (IOException e) {
+        e.printStackTrace();
       }
-      System.out.println("]");
     }
   }
 
@@ -67,6 +78,7 @@ public abstract class PushDownAutomaton {
   private String getNextChain(String chain, String remainingChain, Transition transition) {
     return transition.chainSymbol().epsilon() ? chain : remainingChain;
   }
+
   private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
     if (this.check(state, chain, stack)) return true;
 
@@ -99,29 +111,40 @@ public abstract class PushDownAutomaton {
     this.states = new Vector<>();
     this.isTrace = false;
   }
+
   public void setStates(Vector<State> states) {
     this.states = states;
   }
+
   public void setSigmaAlphabet(Alphabet sigmaAlphabet) {
     this.sigmaAlphabet = sigmaAlphabet;
   }
+
   public void setGammaAlphabet(Alphabet gammaAlphabet) {
     this.gammaAlphabet = gammaAlphabet;
   }
+
   public void setInitialState(State initialState) {
     this.initialState = initialState;
   }
+
   public void setStack(Symbol initialStackSymbol) {
     this.initialStackSymbol = initialStackSymbol;
     this.stack = new Stack<>();
     this.stack.push(initialStackSymbol);
   }
+
   public void setTrace(boolean isTrace) {
     this.isTrace = isTrace;
   }
+
   public boolean run(String chain) {
     if (this.isTrace) {
-      System.out.println("State, Chain, Stack, Transitions");
+      try (FileWriter writer = new FileWriter("out.csv", true)) {
+        writer.write("State, Chain, Stack, Transitions\n");
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
     return recursiveRun(this.initialState, this.stack, chain);
   }
