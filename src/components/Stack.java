@@ -1,6 +1,7 @@
 package src.components;
 
 import java.util.LinkedList;
+import java.util.Vector;
 
 public class Stack<T> {
   private final LinkedList<T> list = new LinkedList<>();
@@ -22,11 +23,11 @@ public class Stack<T> {
   }
 
   public Stack<T> copy() {
-    Stack<T> newStack = new Stack<>();
-    for (T value : list) {
-      newStack.push(value);
-    }
-    return newStack;
+    // Im creating a vector, because on the other way, the stack would be copied on a inverse way
+    Vector<T> copy = new Vector<>(list);
+    Stack<T> result = new Stack<>();
+    result.list.addAll(copy);
+    return result;
   }
 
   public String toString() {

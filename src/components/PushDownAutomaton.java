@@ -48,19 +48,19 @@ public class PushDownAutomaton {
     return recursiveRun(this.initialState, this.stack, chain);
   }
   private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
-    if (chain.isEmpty()) {
-      return stack.isEmpty();
+    if (stack.isEmpty()) {
+      return chain.isEmpty();
     } else {
-      System.out.println(state + " " + chain + " " + stack);
       String previousChain = chain;
-      Symbol chainSymbol = new Symbol(chain.substring(0, 1));
-      chain = chain.substring(1);
-      // If the stack is empty and the chain is not empty, then the automaton can't continue, finish the execution.
-      if (stack.isEmpty()) {
-        return false;
+      Symbol chainSymbol;
+      if (chain.isEmpty()) chainSymbol = Symbol.EPSILON;
+      else {
+        chainSymbol = new Symbol(chain.substring(0, 1));
+        chain = chain.substring(1);
       }
       Symbol stackSymbol = stack.pop();
       Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
+      if (transitions.isEmpty()) return false;
       for (Transition transition : transitions) {
         // Introduce the new stack symbols (inverted order because is a stack)
         Stack<Symbol> newStack = stack.copy();
