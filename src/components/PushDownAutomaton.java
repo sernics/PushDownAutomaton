@@ -12,6 +12,7 @@ public abstract class PushDownAutomaton {
   private State initialState;
   private Symbol initialStackSymbol;
   private Stack<Symbol> stack;
+  private boolean isTrace;
 
   protected abstract boolean check(State state, String chain, Stack<Symbol> stack);
 
@@ -25,9 +26,78 @@ public abstract class PushDownAutomaton {
   private Vector<Transition> transitionFunction(State state, Symbol chainSymbol, Symbol stackSymbol) {
     return state.selectTransitions(chainSymbol, stackSymbol);
   }
+  private void traceState(State state, String chain, Stack<Symbol> stack) {
+    if (this.isTrace) {
+      if (chain.isEmpty()) {
+        System.out.print(state + ", ε, " + stack + ", [");
+      } else {
+        System.out.print(state + ", " + chain + ", " + stack + ", [");
+      }
+    }
+  }
+
+  private Symbol getChainSymbol(String chain) {
+    return chain.isEmpty() ? Symbol.EPSILON : new Symbol(chain.substring(0, 1));
+  }
+
+  private String getRemainingChain(String chain) {
+    return chain.isEmpty() ? chain : chain.substring(1);
+  }
+
+  private void traceTransitions(Vector<Transition> transitions) {
+    if (this.isTrace) {
+      for (Transition transition : transitions) {
+        System.out.print(transition + " ");
+      }
+      System.out.println("]");
+    }
+  }
+
+  private Stack<Symbol> prepareNewStack(Stack<Symbol> stack, Transition transition) {
+    Stack<Symbol> newStack = stack.copy();
+    for (int i = transition.toStack().size() - 1; i >= 0; i--) {
+      Symbol symbol = transition.toStack().get(i);
+      if (!symbol.epsilon()) {
+        newStack.push(symbol);
+      }
+    }
+    return newStack;
+  }
+
+  private String getNextChain(String chain, String remainingChain, Transition transition) {
+    return transition.chainSymbol().epsilon() ? chain : remainingChain;
+  }
+  private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
+    if (this.check(state, chain, stack)) return true;
+
+    traceState(state, chain, stack);
+
+    Symbol chainSymbol = getChainSymbol(chain);
+    String remainingChain = getRemainingChain(chain);
+    Symbol stackSymbol = stack.pop();
+
+    Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
+    traceTransitions(transitions);
+
+    if (transitions.isEmpty()) {
+      return false;
+    }
+
+    for (Transition transition : transitions) {
+      Stack<Symbol> newStack = prepareNewStack(stack, transition);
+      String nextChain = getNextChain(chain, remainingChain, transition);
+
+      if (recursiveRun(transition.nextState(), newStack, nextChain)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   public PushDownAutomaton() {
     this.states = new Vector<>();
+    this.isTrace = false;
   }
   public void setStates(Vector<State> states) {
     this.states = states;
@@ -46,38 +116,16 @@ public abstract class PushDownAutomaton {
     this.stack = new Stack<>();
     this.stack.push(initialStackSymbol);
   }
+  public void setTrace(boolean isTrace) {
+    this.isTrace = isTrace;
+  }
   public boolean run(String chain) {
+    if (this.isTrace) {
+      System.out.println("State, Chain, Stack, Transitions");
+    }
     return recursiveRun(this.initialState, this.stack, chain);
   }
-  private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
-    if (this.check(state, chain, stack)) return true;
 
-    Symbol chainSymbol = chain.isEmpty() ? Symbol.EPSILON : new Symbol(chain.substring(0, 1));
-    String remainingChain = chain.isEmpty() ? chain : chain.substring(1);
-    Symbol stackSymbol = stack.pop();
-    Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
-
-    if (transitions.isEmpty()) {
-      return false;
-    }
-
-    for (Transition transition : transitions) {
-      Stack<Symbol> newStack = stack.copy();
-      for (int i = transition.toStack().size() - 1; i >= 0; i--) {
-        Symbol symbol = transition.toStack().get(i);
-        if (!symbol.epsilon()) {
-          newStack.push(symbol);
-        }
-      }
-
-      String nextChain = transition.chainSymbol().epsilon() ? chain : remainingChain;
-      if (recursiveRun(transition.nextState(), newStack, nextChain)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
   // to string
   public String toString() {
     StringBuilder result = new StringBuilder("Push down Automaton\n");

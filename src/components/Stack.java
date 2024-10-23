@@ -31,6 +31,11 @@ public class Stack<T> {
   }
 
   public String toString() {
-    return list.toString();
+    String result = "[";
+    for (T value : list) {
+      result += value.toString() + " ";
+    }
+    result += "]";
+    return result;
   }
 }
