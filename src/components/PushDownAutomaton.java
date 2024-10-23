@@ -2,7 +2,7 @@ package src.components;
 
 import java.util.Vector;
 
-public class PushDownAutomaton {
+public abstract class PushDownAutomaton {
   /*
    * Attributes of the push-down automaton.
    */
@@ -12,6 +12,8 @@ public class PushDownAutomaton {
   private State initialState;
   private Symbol initialStackSymbol;
   private Stack<Symbol> stack;
+
+  protected abstract boolean finalCheck(State state, String chain);
 
   /*
    * Transition function of the push-down automaton.
@@ -49,7 +51,8 @@ public class PushDownAutomaton {
   }
   private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
     if (stack.isEmpty()) {
-      return chain.isEmpty();
+//    return chain.isEmpty();
+      return this.finalCheck(state, chain);
     } else {
       String previousChain = chain;
       Symbol chainSymbol;

@@ -3,11 +3,7 @@ package src;
 import java.util.Scanner;
 import java.util.Vector;
 
-import src.components.Alphabet;
-import src.components.PushDownAutomaton;
-import src.components.State;
-import src.components.Symbol;
-import src.components.Transition;
+import src.components.*;
 
 public class Parser {
   private final PushDownAutomaton pda;
@@ -76,7 +72,7 @@ public class Parser {
     i++;
     Symbol initialStackSymbol = new Symbol(tokens.get(i)[0]);
     i++;
-    this.pda = new PushDownAutomaton();
+    this.pda = new EmptyPushDown();
     this.pda.setStates(states);
     this.pda.setSigmaAlphabet(sigmaAlphabet);
     this.pda.setGammaAlphabet(gammaAlphabet);
