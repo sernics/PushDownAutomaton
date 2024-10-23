@@ -13,7 +13,7 @@ public abstract class PushDownAutomaton {
   private Symbol initialStackSymbol;
   private Stack<Symbol> stack;
 
-  protected abstract boolean finalCheck(State state, String chain);
+  protected abstract boolean check(State state, String chain, Stack<Symbol> stack);
 
   /*
    * Transition function of the push-down automaton.
@@ -50,43 +50,32 @@ public abstract class PushDownAutomaton {
     return recursiveRun(this.initialState, this.stack, chain);
   }
   private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
-    if (stack.isEmpty()) {
-      System.out.println("Last check");
-      return this.finalCheck(state, chain);
-    } else {
-      String previousChain = chain;
-      Symbol chainSymbol;
-      if (chain.isEmpty()) chainSymbol = Symbol.EPSILON;
-      else {
-        chainSymbol = new Symbol(chain.substring(0, 1));
-        chain = chain.substring(1);
+    if (this.check(state, chain, stack)) return true;
+
+    Symbol chainSymbol = chain.isEmpty() ? Symbol.EPSILON : new Symbol(chain.substring(0, 1));
+    String remainingChain = chain.isEmpty() ? chain : chain.substring(1);
+    Symbol stackSymbol = stack.pop();
+    Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
+
+    if (transitions.isEmpty()) {
+      return false;
+    }
+
+    for (Transition transition : transitions) {
+      Stack<Symbol> newStack = stack.copy();
+      for (int i = transition.toStack().size() - 1; i >= 0; i--) {
+        Symbol symbol = transition.toStack().get(i);
+        if (!symbol.epsilon()) {
+          newStack.push(symbol);
+        }
       }
-      Symbol stackSymbol = stack.pop();
-      Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
-      if (transitions.isEmpty()) return false;
-      for (Transition transition : transitions) {
-        // Introduce the new stack symbols (inverted order because is a stack)
-        Stack<Symbol> newStack = stack.copy();
-        for (int i = transition.toStack().size() - 1; i >= 0; i--) {
-          Symbol symbol = transition.toStack().get(i);
-          // If the symbol is not the epsilon symbol, then push it to the stack.
-          if (!symbol.epsilon()) {
-            newStack.push(transition.toStack().get(i));
-          }
-        }
-        String chainCopy;
-        // What this code do is to check if the chain symbol is epsilon, if it is, then the chain
-        // is the same as the previous chain, otherwise, the chain is the same as the chain.
-        if (transition.chainSymbol().epsilon()) {
-          chainCopy = previousChain;
-        } else {
-          chainCopy = chain;
-        }
-        if (recursiveRun(transition.nextState(), newStack, chainCopy)) {
-          return true;
-        }
+
+      String nextChain = transition.chainSymbol().epsilon() ? chain : remainingChain;
+      if (recursiveRun(transition.nextState(), newStack, nextChain)) {
+        return true;
       }
     }
+
     return false;
   }
   // to string
