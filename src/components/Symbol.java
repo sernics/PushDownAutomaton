@@ -2,12 +2,9 @@ package src.components;
 
 public class Symbol {
   public static final Symbol EPSILON = new Symbol("EPSILON");
-  private String symbol;
+  private final String symbol;
   public Symbol(String symbol) {
     this.symbol = symbol;
-  }
-  public Symbol() {
-    this.symbol = ".";
   }
   public String get() {
     return this.symbol;
@@ -24,6 +21,6 @@ public class Symbol {
   }
   // to string
   public String toString() {
-    return "" + this.symbol;
+    return this.symbol;
   }
 }

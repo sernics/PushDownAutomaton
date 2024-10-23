@@ -2,31 +2,22 @@ package src.components;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.Vector;
 
 public class Alphabet {
-  private Set<Symbol> alphabet;
+  private final Set<Symbol> alphabet;
 
   public Alphabet() {
-    this.alphabet = new LinkedHashSet<Symbol>();
-  }
-  public Alphabet(Vector<Symbol> rawAlphabet) {
-    for (Symbol symbol : rawAlphabet) {
-      this.alphabet.add(symbol);
-    }
+    this.alphabet = new LinkedHashSet<>();
   }
   public void add(Symbol symbol) {
     this.alphabet.add(symbol);
   }
-  public boolean symbolExists(Symbol symbol) {
-    return this.alphabet.contains(symbol);
-  }
   // to string
   public String toString() {
-    String result = "Alphabet: ";
+    StringBuilder result = new StringBuilder("Alphabet: ");
     for (Symbol symbol : this.alphabet) {
-      result += symbol.toString() + " ";
+      result.append(symbol.toString()).append(" ");
     }
-    return result;
+    return result.toString();
   }
 }

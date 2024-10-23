@@ -10,13 +10,13 @@ import src.components.Symbol;
 import src.components.Transition;
 
 public class Parser {
-  private PushDownAutomaton pda;
+  private final PushDownAutomaton pda;
 
   private String removeCommentaries(String line) {
     return line.split("#")[0];
   }
   private Vector<String[]> generateVectorData(String filename) {
-    Vector<String[]> tokens = new Vector<String[]>();
+    Vector<String[]> tokens = new Vector<>();
     try {
       Scanner scanner = new Scanner(new java.io.File(filename));
       while (scanner.hasNextLine()) {
@@ -35,7 +35,7 @@ public class Parser {
     return tokens;
   }
   private Vector<State> generateStates(String[] statesData) {
-    Vector<State> states = new Vector<State>();
+    Vector<State> states = new Vector<>();
     for (String stateData : statesData) {
       State state = new State(stateData);
       states.add(state);
@@ -54,7 +54,7 @@ public class Parser {
     State initialState = null;
     for (State state : states) {
       if (state.getId().equals(initialStateData)) {
-        state.setFinal();
+        state.isFinal();
         initialState = state;
       }
     }
@@ -85,7 +85,7 @@ public class Parser {
     this.pda.setStack(initialStackSymbol);
     while (i < tokens.size()) {
       String stateId = tokens.get(i)[0];
-      Symbol chainSimbol = new Symbol(tokens.get(i)[1]);
+      Symbol chainSymbol = new Symbol(tokens.get(i)[1]);
       Symbol stackSymbol = new Symbol(tokens.get(i)[2]);
       String nextStateId = tokens.get(i)[3];
       State nextState = null;
@@ -94,14 +94,14 @@ public class Parser {
           nextState = state;
         }
       }
-      Vector<Symbol> toStack = new Vector<Symbol>();
+      Vector<Symbol> toStack = new Vector<>();
       String toStackData = tokens.get(i)[4];
       for (int j = 0; j < toStackData.length(); j++) {
         toStack.add(new Symbol(toStackData.substring(j, j + 1)));
       }
       for (State state : states) {
         if (state.getId().equals(stateId)) {
-          Transition transition = new Transition(nextState, chainSimbol, stackSymbol, toStack);
+          Transition transition = new Transition(nextState, chainSymbol, stackSymbol, toStack);
           state.addTransition(transition);
         }
       }

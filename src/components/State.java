@@ -3,14 +3,14 @@ package src.components;
 import java.util.Vector;
 
 public class State {
-  private String id;
+  private final String id;
   private boolean isFinal;
-  private Vector<Transition> transitions;
+  private final Vector<Transition> transitions;
 
   public State(String id) {
     this.id = id;
     this.isFinal = false;
-    this.transitions = new Vector<Transition>();
+    this.transitions = new Vector<>();
   }
   public String getId() {
     return this.id;
@@ -31,13 +31,13 @@ public class State {
    * @return A vector of transitions that can be made from this state with the given chainSymbol and stackSymbol.
    */
   public Vector<Transition> selectTransitions(Symbol chainSymbol, Symbol stackSymbol) {
-    Vector<Transition> result = new Vector<Transition>();
+    Vector<Transition> result = new Vector<>();
     for (Transition transition : this.transitions) {
-      if (transition.getChainSymbol().equals(chainSymbol) && transition.getStackSymbol().equals(stackSymbol)) {
+      if (transition.chainSymbol().equals(chainSymbol) && transition.stackSymbol().equals(stackSymbol)) {
         result.add(transition);
       }
-      // This add the epsilon transitions
-      if (transition.getChainSymbol().epsilon() && transition.getStackSymbol().equals(stackSymbol)) {
+      // This adds the epsilon transitions
+      if (transition.chainSymbol().epsilon() && transition.stackSymbol().equals(stackSymbol)) {
         result.add(transition);
       }
     }

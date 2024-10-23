@@ -3,7 +3,7 @@ package src.components;
 import java.util.LinkedList;
 
 public class Stack<T> {
-  private LinkedList<T> list = new LinkedList<T>();
+  private final LinkedList<T> list = new LinkedList<>();
 
   public void push(T value) {
     list.addFirst(value);
@@ -11,10 +11,6 @@ public class Stack<T> {
 
   public T pop() {
     return list.removeFirst();
-  }
-
-  public T peek() {
-    return list.getFirst();
   }
 
   public boolean isEmpty() {
@@ -26,7 +22,7 @@ public class Stack<T> {
   }
 
   public Stack<T> copy() {
-    Stack<T> newStack = new Stack<T>();
+    Stack<T> newStack = new Stack<>();
     for (T value : list) {
       newStack.push(value);
     }
