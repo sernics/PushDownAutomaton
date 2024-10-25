@@ -61,6 +61,27 @@ public class Parser {
     return initialState;
   }
 
+  public boolean checkAlphabet(Alphabet alphabet, Symbol symbol) {
+    for (Symbol alphabetSymbol : alphabet.getAlphabet()) {
+      if (alphabetSymbol.equals(symbol)) {
+        return true;
+      }
+    }
+    if (symbol.equals(Symbol.EPSILON)) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean checkStates(Vector<State> states, String stateId) {
+    for (State state : states) {
+      if (state.getId().equals(stateId)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public Parser(String filename, int type) {
     Vector<String[]> tokens = this.generateVectorData(filename);
     int i = 0;
@@ -90,10 +111,17 @@ public class Parser {
       this.pda = new EmptyPushDown();
     } else if (type == 2) {
       String[] finalStates = tokens.get(i);
+      boolean isFinalState = false;
       for (String finalState : finalStates) {
         for (State state : states) {
-          if (state.getId().equals(finalState)) state.setFinal();
+          if (state.getId().equals(finalState)) {
+            state.setFinal();
+            isFinalState = true;
+          }
         }
+      }
+      if (!isFinalState) {
+        throw new RuntimeException("The final state was not found.");
       }
       i++;
       this.pda = new FinalPushDown();
@@ -105,19 +133,37 @@ public class Parser {
     this.pda.setStack(initialStackSymbol);
     while (i < tokens.size()) {
       String stateId = tokens.get(i)[0];
+      if (!this.checkStates(states, stateId)) {
+        throw new RuntimeException("The state " + stateId + " was not found.");
+      }
       Symbol chainSymbol = new Symbol(tokens.get(i)[1]);
+      if (!this.checkAlphabet(sigmaAlphabet, chainSymbol)) {
+        throw new RuntimeException("The symbol " + chainSymbol + " was not found in the sigma alphabet.");
+      }
       Symbol stackSymbol = new Symbol(tokens.get(i)[2]);
+      if (!this.checkAlphabet(gammaAlphabet, stackSymbol)) {
+        throw new RuntimeException("The symbol " + stackSymbol + " was not found in the gamma alphabet.");
+      }
       String nextStateId = tokens.get(i)[3];
       State nextState = null;
+      boolean isNextState = false;
       for (State state : states) {
         if (state.getId().equals(nextStateId)) {
           nextState = state;
+          isNextState = true;
         }
+      }
+      if (!isNextState) {
+        throw new RuntimeException("The next state " + nextStateId + " was not found.");
       }
       Vector<Symbol> toStack = new Vector<>();
       String toStackData = tokens.get(i)[4];
       for (int j = 0; j < toStackData.length(); j++) {
-        toStack.add(new Symbol(toStackData.substring(j, j + 1)));
+        String data = toStackData.substring(j, j + 1);
+        if (!this.checkAlphabet(gammaAlphabet, new Symbol(data)) && !data.equals(".")) {
+          throw new RuntimeException("The symbol " + data + " was not found in the gamma alphabet.");
+        }
+        toStack.add(new Symbol(data));
       }
       for (State state : states) {
         if (state.getId().equals(stateId)) {
