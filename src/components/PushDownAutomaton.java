@@ -79,6 +79,11 @@ public abstract class PushDownAutomaton {
     return transition.chainSymbol().epsilon() ? chain : remainingChain;
   }
 
+  private void reconfigurePushDownAutomaton() {
+    this.stack = new Stack<>();
+    this.stack.push(this.initialStackSymbol);
+  }
+
   private boolean recursiveRun(State state, Stack<Symbol> stack, String chain) {
     if (this.check(state, chain, stack)) return true;
 
@@ -86,6 +91,9 @@ public abstract class PushDownAutomaton {
 
     Symbol chainSymbol = getChainSymbol(chain);
     String remainingChain = getRemainingChain(chain);
+    if (stack.isEmpty()) {
+      return false;
+    }
     Symbol stackSymbol = stack.pop();
 
     Vector<Transition> transitions = this.transitionFunction(state, chainSymbol, stackSymbol);
@@ -146,7 +154,9 @@ public abstract class PushDownAutomaton {
         e.printStackTrace();
       }
     }
-    return recursiveRun(this.initialState, this.stack, chain);
+    boolean result = recursiveRun(this.initialState, this.stack, chain);
+    this.reconfigurePushDownAutomaton();
+    return result;
   }
 
   // to string

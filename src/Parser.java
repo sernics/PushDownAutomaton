@@ -48,10 +48,15 @@ public class Parser {
   }
   private State setInitialState(Vector<State> states, String initialStateData) {
     State initialState = null;
+    boolean isInitialState = false;
     for (State state : states) {
       if (state.getId().equals(initialStateData)) {
         initialState = state;
+        isInitialState = true;
       }
+    }
+    if (!isInitialState) {
+      throw new RuntimeException("The initial state was not found.");
     }
     return initialState;
   }
@@ -71,6 +76,15 @@ public class Parser {
     State initialState = this.setInitialState(states, tokens.get(i)[0]);
     i++;
     Symbol initialStackSymbol = new Symbol(tokens.get(i)[0]);
+    boolean isInitialState = false;
+    for (State state : states) {
+      if (state.getId().equals(initialState.getId())) {
+        isInitialState = true;
+      }
+    }
+    if (!isInitialState) {
+      throw new RuntimeException("The initial state was not found.");
+    }
     i++;
     if (type == 1) {
       this.pda = new EmptyPushDown();

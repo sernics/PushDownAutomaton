@@ -25,3 +25,132 @@ State q is final: false, 010, [ 0 1 0 S ], [{ q 0 } ]
 State q is final: false, 10, [ 1 0 S ], [{ q 1 } ]
 State q is final: false, 0, [ 0 S ], [{ q 0 } ]
 State q is final: false, ε, [ S ], [{ r S } ]
+State, Chain, Stack, Transitions
+State p is final: false, 010101101010, [ S ], [{ p S } { q S } ]
+State p is final: false, 10101101010, [ 0 S ], [{ p 0 } { q 0 } ]
+State p is final: false, 0101101010, [ 1 0 S ], [{ p 1 } { q 1 } ]
+State p is final: false, 101101010, [ 0 1 0 S ], [{ p 0 } { q 0 } ]
+State p is final: false, 01101010, [ 1 0 1 0 S ], [{ p 1 } { q 1 } ]
+State p is final: false, 1101010, [ 0 1 0 1 0 S ], [{ p 0 } { q 0 } ]
+State p is final: false, 101010, [ 1 0 1 0 1 0 S ], [{ p 1 } { q 1 } ]
+State p is final: false, 01010, [ 1 1 0 1 0 1 0 S ], [{ p 1 } { q 1 } ]
+State p is final: false, 1010, [ 0 1 1 0 1 0 1 0 S ], [{ p 0 } { q 0 } ]
+State p is final: false, 010, [ 1 0 1 1 0 1 0 1 0 S ], [{ p 1 } { q 1 } ]
+State p is final: false, 10, [ 0 1 0 1 1 0 1 0 1 0 S ], [{ p 0 } { q 0 } ]
+State p is final: false, 0, [ 1 0 1 0 1 1 0 1 0 1 0 S ], [{ p 1 } { q 1 } ]
+State p is final: false, ε, [ 0 1 0 1 0 1 1 0 1 0 1 0 S ], [{ q 0 } ]
+State q is final: false, ε, [ 0 1 0 1 0 1 1 0 1 0 1 0 S ], []
+State q is final: false, 0, [ 1 0 1 0 1 1 0 1 0 1 0 S ], []
+State q is final: false, 10, [ 0 1 0 1 1 0 1 0 1 0 S ], []
+State q is final: false, 010, [ 1 0 1 1 0 1 0 1 0 S ], []
+State q is final: false, 1010, [ 0 1 1 0 1 0 1 0 S ], []
+State q is final: false, 01010, [ 1 1 0 1 0 1 0 S ], []
+State q is final: false, 101010, [ 1 0 1 0 1 0 S ], [{ q 1 } ]
+State q is final: false, 01010, [ 0 1 0 1 0 S ], [{ q 0 } ]
+State q is final: false, 1010, [ 1 0 1 0 S ], [{ q 1 } ]
+State q is final: false, 010, [ 0 1 0 S ], [{ q 0 } ]
+State q is final: false, 10, [ 1 0 S ], [{ q 1 } ]
+State q is final: false, 0, [ 0 S ], [{ q 0 } ]
+State q is final: false, ε, [ S ], [{ r S } ]
+State, Chain, Stack, Transitions
+State q1 is final: true, 010101101010, [ S ], []
+State, Chain, Stack, Transitions
+State q1 is final: false, 010101101010, [ S ], []
+State, Chain, Stack, Transitions
+State q1 is final: false, aabb, [ S ], [{ q1 S } ]
+State q1 is final: false, abb, [ A ], [{ q1 A } ]
+State q1 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, ε, [ S ], []
+State, Chain, Stack, Transitions
+State q1 is final: false, ε, [ S ], []
+State, Chain, Stack, Transitions
+State q1 is final: false, aabb, [ S ], [{ q1 S } ]
+State q1 is final: false, abb, [ A ], [{ q1 A } ]
+State q1 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, aabb, [ S ], [{ q1 S } ]
+State q1 is final: false, abb, [ A ], [{ q1 A } ]
+State q1 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State p is final: false, AABBCCCC, [ X ], [{ p X } ]
+State p is final: false, ABBCCCC, [ y X ], [{ p y } ]
+State p is final: false, BBCCCC, [ y y X ], [{ q y } ]
+State q is final: false, BCCCC, [ y y y X ], [{ q y } ]
+State q is final: false, CCCC, [ y y y y X ], [{ r y } ]
+State r is final: false, CCC, [ y y y X ], [{ r y } ]
+State r is final: false, CC, [ y y X ], [{ r y } ]
+State r is final: false, C, [ y X ], [{ r y } ]
+State r is final: false, ε, [ X ], [{ r X } ]
+State, Chain, Stack, Transitions
+State p is final: false, AABBCC, [ X ], [{ p X } ]
+State p is final: false, ABBCC, [ y X ], [{ p y } ]
+State p is final: false, BBCC, [ y y X ], [{ q y } ]
+State q is final: false, BCC, [ y y y X ], [{ q y } ]
+State q is final: false, CC, [ y y y y X ], [{ r y } ]
+State r is final: false, C, [ y y y X ], [{ r y } ]
+State r is final: false, ε, [ y y X ], []
+State, Chain, Stack, Transitions
+State p is final: false, ACC, [ X ], [{ p X } ]
+State p is final: false, CC, [ y X ], []
+State, Chain, Stack, Transitions
+State p is final: false, BBCCC, [ X ], [{ q X } ]
+State q is final: false, BCCC, [ y X ], [{ q y } ]
+State q is final: false, CCC, [ y y X ], [{ r y } ]
+State r is final: false, CC, [ y X ], [{ r y } ]
+State r is final: false, C, [ X ], [{ r X } { r X } ]
+State r is final: false, ε, [ X ], [{ r X } ]
+State, Chain, Stack, Transitions
+State p is final: false, AABBCCCC, [ X ], [{ p X } ]
+State p is final: false, ABBCCCC, [ y X ], [{ p y } ]
+State p is final: false, BBCCCC, [ y y X ], [{ q y } ]
+State q is final: false, BCCCC, [ y y y X ], [{ q y } ]
+State q is final: false, CCCC, [ y y y y X ], [{ r y } ]
+State r is final: false, CCC, [ y y y X ], [{ r y } ]
+State r is final: false, CC, [ y y X ], [{ r y } ]
+State r is final: false, C, [ y X ], [{ r y } ]
+State r is final: false, ε, [ X ], [{ r X } ]
+State, Chain, Stack, Transitions
+State, Chain, Stack, Transitions
+State, Chain, Stack, Transitions
+State q1 is final: false, aabb, [ S ], [{ q1 S } ]
+State q1 is final: false, abb, [ A ], [{ q1 A } ]
+State q1 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, ab, [ ], [State, Chain, Stack, Transitions
+State q1 is final: false, aabb, [ S ], [{ q1 S } ]
+State q1 is final: false, abb, [ A ], [{ q1 A } ]
+State q1 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, ab, [ ], [State, Chain, Stack, Transitions
+State q1 is final: false, aabb, [ S ], [{ q1 S } ]
+State q1 is final: false, abb, [ A ], [{ q1 A } ]
+State q1 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, exit, [ ], [State, Chain, Stack, Transitions
+State q1 is final: false, aabb, [ S ], [{ q1 S } ]
+State q1 is final: false, abb, [ A ], [{ q1 A } ]
+State q1 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, ab, [ S ], [{ q1 S } ]
+State q1 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, aaaabbbb, [ S ], [{ q1 S } ]
+State q1 is final: false, aaabbbb, [ A ], [{ q1 A } ]
+State q1 is final: false, aabbbb, [ A A ], [{ q1 A } ]
+State q1 is final: false, abbbb, [ A A A ], [{ q1 A } ]
+State q1 is final: false, bbbb, [ A A A A ], [{ q2 A } ]
+State q2 is final: false, bbb, [ A A A ], [{ q2 A } ]
+State q2 is final: false, bb, [ A A ], [{ q2 A } ]
+State q2 is final: false, b, [ A ], [{ q2 A } ]
+State, Chain, Stack, Transitions
+State q1 is final: false, abb, [ S ], [{ q1 S } ]
+State q1 is final: false, bb, [ A ], [{ q2 A } ]
+State q2 is final: false, b, [ ], [

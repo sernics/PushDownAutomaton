@@ -12,6 +12,9 @@ public class Alphabet {
   public void add(Symbol symbol) {
     this.alphabet.add(symbol);
   }
+  public Set<Symbol> getAlphabet() {
+    return this.alphabet;
+  }
   // to string
   public String toString() {
     StringBuilder result = new StringBuilder("Alphabet: ");

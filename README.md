@@ -12,10 +12,3 @@ mkdir bin
 javac -d bin src/Main.java src/Parser.java src/components/*.java
 java -cp bin Main
 ```
-
-Datos que se necesitan para ejecutar el código:
-- En el main está el parser, donde se le pasa por parámetros el fichero de entrada, y una cosa que pone type, el tipo, hay dos tipos:
-  - 0: Autómata de pila vacía
-  - 1: Autómata de pila con estado final
-- El valor de la función isTrace se pone a true si quieres ver la traza
-- Y en el run, se le pasa por parámetros la cadena que se quiere comprobar.
