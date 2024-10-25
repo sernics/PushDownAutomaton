@@ -12,3 +12,5 @@ mkdir bin
 javac -d bin src/Main.java src/Parser.java src/components/*.java
 java -cp bin Main
 ```
+
+Esta práctica, lo primero que te pregunta es el fichero de entrada, luego tiene tanto implementación de automata de pila por vaciado de pila como automata de pila por estado final, asi que te hace elegir por uno u otro. Luego, como tiene opción de traza o no, te pregunta por la traza. Y por último, te va preguntando cadenas a evaluar hasta que escribes la cadena exit.
